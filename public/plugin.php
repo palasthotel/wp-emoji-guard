@@ -48,6 +48,8 @@ const CAPABILITY = "manage_options";
 
 const NONCE_ACTION = "overwrite-emoji-guard-value";
 
+const SITE_HEALTH_TEST = "emoji_guard";
+
 function load_textdomain() {
 	load_plugin_textdomain(
 		'emoji-guard',
@@ -272,7 +274,7 @@ function maybe_store_content_reference() {
 // -----------------------------------------------------------------------------
 
 /**
- * The "update validation option" button on the notice. Handled
+ * The "update validation option" button, on the notice and in Site Health. Handled
  * before any output, so a refused request gets a real 403, and answered with a
  * redirect, so reloading the page does not post it again.
  */
@@ -288,7 +290,7 @@ function handle_overwrite() {
 	store_reference();
 
 	// wp_get_referer() is false when the form posts to the page it is on - which it
-	// does - so fall back to the raw referer.
+	// does, from the notice and from Site Health - so fall back to the raw referer.
 	// wp_safe_redirect() still refuses anything off the site.
 	$referer = wp_get_referer();
 	if ( ! $referer ) {
@@ -365,6 +367,12 @@ function admin_notices() {
 		return;
 	}
 
+	// Site Health shows the same finding as its own test, with the same button
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+	if ( $screen && 'site-health' === $screen->id ) {
+		return;
+	}
+
 	$failed = get_failed_checks();
 	if ( empty( $failed ) ) {
 		return;
@@ -391,3 +399,64 @@ function admin_init() {
 }
 
 add_action( 'admin_init', __NAMESPACE__ . '\admin_init' );
+
+// -----------------------------------------------------------------------------
+// Site Health
+// -----------------------------------------------------------------------------
+
+/**
+ * A direct test under Tools > Site Health, next to core's own.
+ *
+ * @param array $tests
+ *
+ * @return array
+ */
+function site_status_tests( $tests ) {
+	$tests['direct'][ SITE_HEALTH_TEST ] = array(
+		'label' => __( 'Emojis in the database', 'emoji-guard' ),
+		'test'  => __NAMESPACE__ . '\site_health_test',
+	);
+
+	return $tests;
+}
+
+add_filter( 'site_status_tests', __NAMESPACE__ . '\site_status_tests' );
+
+/**
+ * @return array the result in the shape WP_Site_Health expects
+ */
+function site_health_test() {
+	global $wpdb;
+	$tables = array_map( function ( $check ) {
+		return '<code>' . esc_html( $check['table'] ) . '</code>';
+	}, get_checks() );
+
+	$result = array(
+		'label'       => __( 'Emojis in the database are intact', 'emoji-guard' ),
+		'status'      => 'good',
+		'badge'       => array(
+			'label' => __( 'Database', 'emoji-guard' ),
+			'color' => 'blue',
+		),
+		'description' => '<p>' . sprintf(
+			/* translators: %s: the tables checked, e.g. wp_options, wp_posts */
+			esc_html__( 'Emoji Guard keeps a reference value with emojis in %s. A database copied with the wrong character set, or a search and replace that broke serialized data, would change it - it is unchanged.', 'emoji-guard' ),
+			implode( ', ', $tables )
+		) . '</p>',
+		'actions'     => '',
+		'test'        => SITE_HEALTH_TEST,
+	);
+
+	$failed = get_failed_checks();
+	if ( ! empty( $failed ) ) {
+		$result['label']       = __( 'Emojis in the database have been damaged', 'emoji-guard' );
+		$result['status']      = 'critical';
+		$result['badge']['color'] = 'red';
+		$result['description'] = '<p>' . esc_html__( 'The reference value Emoji Guard keeps in the database no longer matches. Emojis in your content are likely to be damaged as well - typically by a migration, a backup restore or a search and replace.', 'emoji-guard' ) . '</p>'
+			. render_findings( $failed )
+			. '<p>' . esc_html__( 'Check a few posts with emojis. Once the cause is fixed, store the reference value again.', 'emoji-guard' ) . '</p>';
+		$result['actions']     = render_overwrite_form();
+	}
+
+	return $result;
+}
