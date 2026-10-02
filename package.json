@@ -1,0 +1,19 @@
+{
+	"name": "@palasthotel/emoji-guard",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Warns administrators when a database migration has broken the site's emojis.",
+	"license": "GPL-3.0-or-later",
+	"author": {
+		"name": "Palasthotel",
+		"email": "webmaster@palasthotel.de",
+		"url": "https://palasthotel.de"
+	},
+	"repository": "git+https://github.com/palasthotel/emoji-guard.git",
+	"bugs": {
+		"url": "https://github.com/palasthotel/emoji-guard/issues"
+	},
+	"scripts": {
+		"pack": "./bin/pack.sh"
+	}
+}
