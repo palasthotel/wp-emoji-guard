@@ -1,0 +1,10 @@
+.DS_Store
+.idea
+/node_modules
+
+# bin/pack.sh stages the payload here; the release rsyncs from it into SVN
+/build
+/emoji-guard.zip
+
+# wp-env
+/.wp-env.override.json

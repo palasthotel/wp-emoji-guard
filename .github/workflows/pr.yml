@@ -1,0 +1,89 @@
+name: PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    name: PHP syntax check (${{ matrix.php-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["7.4", "8.2", "8.3", "8.4"]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Lint PHP files
+        run: |
+          find . -name '*.php' -not -path './build/*' -not -path './node_modules/*' -print0 \
+            | xargs -0 -r -n1 php -l
+
+  pack:
+    name: Pack plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Pack
+        run: bash bin/pack.sh
+
+      # The payload is what wordpress.org serves, so assert both what has to be in it
+      # and what must not.
+      - name: Assert the payload is clean
+        run: |
+          test -f build/emoji-guard/plugin.php
+          test -f build/emoji-guard/readme.txt
+          test -f build/emoji-guard/LICENSE
+          test -f build/emoji-guard/languages/emoji-guard.pot
+          test -f build/emoji-guard/languages/emoji-guard-de_DE.mo
+          test ! -e build/emoji-guard/bin
+          test ! -e build/emoji-guard/.github
+          test ! -e build/emoji-guard/CONTRIBUTING.md
+          test ! -e build/emoji-guard/package.json
+
+      # wordpress.org discards symlinks when it builds the download, so the Swiss
+      # translations must arrive as files.
+      - name: Assert the payload has no symlinks
+        run: |
+          if [ -n "$(find build/emoji-guard -type l)" ]; then
+            echo "::error::the payload contains symlinks"
+            find build/emoji-guard -type l
+            exit 1
+          fi
+
+      # The development wrapper in the repository root carries a plugin header, so
+      # shipping it would put a second "Emoji Guard - DEV" entry in the plugin list.
+      - name: Assert the dev wrapper is not shipped
+        run: |
+          if grep -rq 'Emoji Guard - DEV' build/emoji-guard/; then
+            echo "::error::the payload contains the development wrapper"
+            exit 1
+          fi
+
+  versions:
+    name: Version carriers agree
+    # Not on the release PR: it arrives with only package.json bumped and gets its other
+    # carriers in a second push from update-plugin-version.yml, so checking its first
+    # commit would fail every time. The release job runs the same script anyway.
+    if: ${{ ! startsWith(github.head_ref, 'release-please--') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+
+      - name: Check version numbers
+        run: VERSION="$(node -p "require('./package.json').version")" bash bin/version-checker.sh
