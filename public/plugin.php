@@ -6,7 +6,7 @@ namespace Palasthotel\EmojiGuard;
  * Plugin Name: Emoji Guard
  * Plugin URI: https://github.com/palasthotel/wp-emoji-guard
  * Description: Checks data integrity of emojis
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Palasthotel <webmaster@palasthotel.de>
  * Author URI: https://palasthotel.de
  * Text Domain: emoji-guard
