@@ -1,6 +1,6 @@
 {
 	"name": "@palasthotel/emoji-guard",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": true,
 	"description": "Warns administrators when a database migration has broken the site's emojis.",
 	"license": "GPL-3.0-or-later",
