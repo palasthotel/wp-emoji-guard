@@ -11,8 +11,7 @@ permissions:
 
 jobs:
   sync-version:
-    uses: palasthotel/github-workflows/.github/workflows/wp-plugin-sync-version.yml@main
+    uses: palasthotel/github-workflows/.github/workflows/wp-plugin-sync-version.yml@v1
     with:
       app-id: ${{ vars.RELEASE_BOT_APP_ID }}
-      tools-ref: main
     secrets: inherit

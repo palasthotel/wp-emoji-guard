@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   release-please:
-    uses: palasthotel/github-workflows/.github/workflows/wp-plugin-release-please.yml@main
+    uses: palasthotel/github-workflows/.github/workflows/wp-plugin-release-please.yml@v1
     with:
       app-id: ${{ vars.RELEASE_BOT_APP_ID }}
     secrets: inherit

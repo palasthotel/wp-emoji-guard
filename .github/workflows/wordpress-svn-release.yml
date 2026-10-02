@@ -18,9 +18,8 @@ permissions:
 
 jobs:
   deploy:
-    uses: palasthotel/github-workflows/.github/workflows/wp-plugin-svn-deploy.yml@main
+    uses: palasthotel/github-workflows/.github/workflows/wp-plugin-svn-deploy.yml@v1
     with:
       slug: emoji-guard
       version: ${{ github.event.inputs.version }}
-      tools-ref: main
     secrets: inherit

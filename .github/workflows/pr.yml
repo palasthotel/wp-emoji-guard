@@ -10,11 +10,10 @@ permissions:
 
 jobs:
   checks:
-    uses: palasthotel/github-workflows/.github/workflows/wp-plugin-pr.yml@main
+    uses: palasthotel/github-workflows/.github/workflows/wp-plugin-pr.yml@v1
     with:
       slug: emoji-guard
       dev-plugin-name: Emoji Guard - DEV
       required-files: |
         languages/emoji-guard.pot
         languages/emoji-guard-de_DE.mo
-      tools-ref: main
