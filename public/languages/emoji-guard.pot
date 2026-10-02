@@ -21,7 +21,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: plugin.php
-msgid "https://github.com/palasthotel/emoji-guard"
+msgid "https://github.com/palasthotel/wp-emoji-guard"
 msgstr ""
 
 #. Description of the plugin

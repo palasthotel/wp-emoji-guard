@@ -9,9 +9,9 @@
 		"email": "webmaster@palasthotel.de",
 		"url": "https://palasthotel.de"
 	},
-	"repository": "git+https://github.com/palasthotel/emoji-guard.git",
+	"repository": "git+https://github.com/palasthotel/wp-emoji-guard.git",
 	"bugs": {
-		"url": "https://github.com/palasthotel/emoji-guard/issues"
+		"url": "https://github.com/palasthotel/wp-emoji-guard/issues"
 	},
 	"scripts": {
 		"pack": "./bin/pack.sh"
