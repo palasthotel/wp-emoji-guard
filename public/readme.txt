@@ -5,7 +5,7 @@ Tags: emoji, migration, utf8mb4, database, integrity
 Requires at least: 4.0
 Tested up to: 7.1.2
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -38,6 +38,11 @@ Users who can manage options, which on a default site means administrators.
 Then something else rewrote the database - a backup restore, a plugin converting tables, or a search and replace. Check a few posts with emojis; if they are fine, store the reference value again with the button.
 
 == Changelog ==
+
+= 1.0.1 =
+**Bug Fixes**
+* show the integrity warning to administrators only (d73c40d)
+* translate the integrity warning (10900f3)
 
 = 1.0.0 =
 First release
