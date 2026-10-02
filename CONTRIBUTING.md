@@ -52,7 +52,6 @@ repository-only.
 | `public/languages/` | translations; `emoji-guard.pot` is generated with `wp i18n make-pot`. The Swiss locales are symlinks to `de_DE` |
 | `public/readme.txt` | the wordpress.org listing |
 | `plugin.php` | development wrapper, loads `public/`; never deployed |
-| `bin/` | release helper scripts |
 
 The main file `public/plugin.php` must keep its name. WordPress identifies an installed
 plugin by `<directory>/<main file>` and stores that pair in `active_plugins`; renaming it
@@ -74,8 +73,10 @@ npx @wordpress/env run cli wp db query \
   "UPDATE wp_options SET option_value='a:1:{i:0;s:17:\"????????\";}' WHERE option_name='_emoji_guard_validation'"
 ```
 
-`npm run pack` (or `bash bin/pack.sh`) stages the payload in `build/emoji-guard/` and zips
-it to `emoji-guard.zip` — the same payload the release deploys.
+`npm run pack` stages the payload in `build/emoji-guard/` and zips it to `emoji-guard.zip`
+— the same payload the release deploys. It runs the shared script from
+[palasthotel/github-workflows](https://github.com/palasthotel/github-workflows), which has
+to be checked out next to this repository.
 
 ## Versions
 
@@ -84,12 +85,12 @@ and the `Stable tag:` in `public/readme.txt` are all maintained by the release p
 see [.github/WORKFLOWS.md](.github/WORKFLOWS.md).
 
 `package.json` holds nothing but that version and the `pack` script, and has to stay:
-release-please and both scripts in `bin/` read the version from it.
+release-please and the shared release scripts read the version from it.
 
 Content changes to `public/readme.txt` (description, FAQ, tested-up-to) are of course done
 by hand; just leave `Stable tag:` and the `== Changelog ==` entries alone.
 
 ## Checks
 
-Every PR runs `php -l` against PHP 7.4, 8.2, 8.3 and 8.4, packs the plugin so a broken `bin/pack.sh` surfaces in the pull request, and checks the
+Every PR runs `php -l` against PHP 7.4, 8.2, 8.3 and 8.4, packs the plugin and checks the payload, and checks the
 version carriers agree.
