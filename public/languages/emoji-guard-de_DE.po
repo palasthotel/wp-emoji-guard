@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Emoji Guard\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/public\n"
-"POT-Creation-Date: 2026-10-02T06:45:48+00:00\n"
+"POT-Creation-Date: 2026-10-02T10:06:23+00:00\n"
 "PO-Revision-Date: 2020-08-06 09:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -46,32 +46,80 @@ msgstr ""
 msgid "https://palasthotel.de"
 msgstr ""
 
-#: plugin.php:78
-msgid "Integrity value was updated."
-msgstr "Der Integritätswert wurde aktualisiert."
-
-#: plugin.php:96
-msgid "Integrity check failed."
-msgstr "Die Integritätsprüfung ist fehlgeschlagen."
-
-#. translators: %s: the expected emojis
-#: plugin.php:103
+#. translators: 1: database table, 2: the expected emojis
+#: plugin.php:315
 #, php-format
 msgid ""
-"Expected %s, but the stored value is missing or cannot be read - a migration"
-" usually damaged it."
+"%1$s: expected %2$s, but the stored value is missing or cannot be read - a "
+"migration usually damaged it."
 msgstr ""
-"Erwartet: %s. Der gespeicherte Wert fehlt oder ist nicht lesbar - meist hat "
-"ihn eine Migration beschädigt."
+"%1$s: erwartet %2$s, der gespeicherte Wert fehlt aber oder ist nicht lesbar "
+"- meist hat ihn eine Migration beschädigt."
 
-#. translators: 1: the expected emojis, 2: the emojis found in the database
-#: plugin.php:109
+#. translators: 1: database table, 2: the expected emojis, 3: the emojis found
+#. in the database
+#: plugin.php:322
 #, php-format
-msgid "Expected %1$s, found %2$s."
-msgstr "Erwartet: %1$s, gefunden: %2$s."
+msgid "%1$s: expected %2$s, found %3$s."
+msgstr "%1$s: erwartet %2$s, gefunden %3$s."
 
-#: plugin.php:121
+#: plugin.php:344
 msgid "Got the problem! Update validation option with valid emojis."
 msgstr ""
 "Das Problem ist behoben! Validierungsoption mit validen Emojis "
 "aktualisieren."
+
+#: plugin.php:362
+msgid "Integrity value was updated."
+msgstr "Der Integritätswert wurde aktualisiert."
+
+#: plugin.php:384
+msgid "Integrity check failed."
+msgstr "Die Integritätsprüfung ist fehlgeschlagen."
+
+#: plugin.php:416
+msgid "Emojis in the database"
+msgstr "Emojis in der Datenbank"
+
+#: plugin.php:435
+msgid "Emojis in the database are intact"
+msgstr "Die Emojis in der Datenbank sind intakt"
+
+#: plugin.php:438
+msgid "Database"
+msgstr "Datenbank"
+
+#. translators: %s: the tables checked, e.g. wp_options, wp_posts
+#: plugin.php:443
+#, php-format
+msgid ""
+"Emoji Guard keeps a reference value with emojis in %s. A database copied "
+"with the wrong character set, or a search and replace that broke serialized "
+"data, would change it - it is unchanged."
+msgstr ""
+"Emoji Guard hält einen Referenzwert mit Emojis in %s. Eine mit falschem "
+"Zeichensatz kopierte Datenbank oder ein Suchen-und-Ersetzen, das "
+"serialisierte Daten beschädigt, würde ihn verändern - er ist unverändert."
+
+#: plugin.php:452
+msgid "Emojis in the database have been damaged"
+msgstr "Die Emojis in der Datenbank sind beschädigt"
+
+#: plugin.php:455
+msgid ""
+"The reference value Emoji Guard keeps in the database no longer matches. "
+"Emojis in your content are likely to be damaged as well - typically by a "
+"migration, a backup restore or a search and replace."
+msgstr ""
+"Der Referenzwert, den Emoji Guard in der Datenbank hält, stimmt nicht mehr. "
+"Wahrscheinlich sind auch Emojis in Ihren Inhalten beschädigt - "
+"typischerweise durch eine Migration, die Wiederherstellung einer Sicherung "
+"oder ein Suchen-und-Ersetzen."
+
+#: plugin.php:457
+msgid ""
+"Check a few posts with emojis. Once the cause is fixed, store the reference "
+"value again."
+msgstr ""
+"Prüfen Sie ein paar Beiträge mit Emojis. Sobald die Ursache behoben ist, "
+"speichern Sie den Referenzwert erneut."

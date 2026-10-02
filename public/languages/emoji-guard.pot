@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-02T06:45:48+00:00\n"
+"POT-Creation-Date: 2026-10-02T10:06:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: emoji-guard\n"
@@ -39,26 +39,56 @@ msgstr ""
 msgid "https://palasthotel.de"
 msgstr ""
 
-#: plugin.php:78
+#. translators: 1: database table, 2: the expected emojis
+#: plugin.php:315
+#, php-format
+msgid "%1$s: expected %2$s, but the stored value is missing or cannot be read - a migration usually damaged it."
+msgstr ""
+
+#. translators: 1: database table, 2: the expected emojis, 3: the emojis found in the database
+#: plugin.php:322
+#, php-format
+msgid "%1$s: expected %2$s, found %3$s."
+msgstr ""
+
+#: plugin.php:344
+msgid "Got the problem! Update validation option with valid emojis."
+msgstr ""
+
+#: plugin.php:362
 msgid "Integrity value was updated."
 msgstr ""
 
-#: plugin.php:96
+#: plugin.php:384
 msgid "Integrity check failed."
 msgstr ""
 
-#. translators: %s: the expected emojis
-#: plugin.php:103
-#, php-format
-msgid "Expected %s, but the stored value is missing or cannot be read - a migration usually damaged it."
+#: plugin.php:416
+msgid "Emojis in the database"
 msgstr ""
 
-#. translators: 1: the expected emojis, 2: the emojis found in the database
-#: plugin.php:109
-#, php-format
-msgid "Expected %1$s, found %2$s."
+#: plugin.php:435
+msgid "Emojis in the database are intact"
 msgstr ""
 
-#: plugin.php:121
-msgid "Got the problem! Update validation option with valid emojis."
+#: plugin.php:438
+msgid "Database"
+msgstr ""
+
+#. translators: %s: the tables checked, e.g. wp_options, wp_posts
+#: plugin.php:443
+#, php-format
+msgid "Emoji Guard keeps a reference value with emojis in %s. A database copied with the wrong character set, or a search and replace that broke serialized data, would change it - it is unchanged."
+msgstr ""
+
+#: plugin.php:452
+msgid "Emojis in the database have been damaged"
+msgstr ""
+
+#: plugin.php:455
+msgid "The reference value Emoji Guard keeps in the database no longer matches. Emojis in your content are likely to be damaged as well - typically by a migration, a backup restore or a search and replace."
+msgstr ""
+
+#: plugin.php:457
+msgid "Check a few posts with emojis. Once the cause is fixed, store the reference value again."
 msgstr ""

@@ -12,12 +12,28 @@ miss until it shows up in published content.
 
 ## How it works
 
-On activation the plugin stores a reference value, `🛡🦸‍♂️`, as a serialized array in the
-option `_emoji_guard_validation`. On every admin screen it compares the stored value with
-the expected one. If they differ, users with `manage_options` see a warning that names
-both values - or says that the stored one is missing or unreadable, which is what a
-damaged serialization looks like - and a button that stores the reference value again
-once the migration is sorted out.
+On activation the plugin stores a reference value, `🛡🦸‍♂️`, in three places:
+
+| Table | Where | Catches |
+|---|---|---|
+| `wp_options` | option `_emoji_guard_validation`, serialized | a wrong character set, broken serialization |
+| `wp_posts` | `post_content` of the one post of type `emoji_guard` | content tables copied with a wrong character set |
+| `wp_postmeta` | meta `_emoji_guard_validation` of that post, serialized | broken serialization in meta, content tables not migrated |
+
+The post type is not public, has no admin screen, is not exported and is not in REST or
+search. Sites updating from 1.0 get the post on the first admin request; only a post that
+existed and later went missing counts as a finding.
+
+On every admin screen the plugin compares the stored values with the expected one - read
+from the database itself, not through the object cache, which could otherwise still hold
+the values from before a database was replaced. If one differs, users with
+`manage_options` see a warning naming the table and both values, or saying that the
+stored one is missing or unreadable, and a button that stores the reference again once
+the migration is sorted out. The same check is a direct test in Site Health
+(`emoji_guard`), with the same button; the notice stays off that screen.
+
+Deleting the plugin (`uninstall.php`) removes both options and the post, on every site
+of a network.
 
 The plugin changes no other data and repairs nothing.
 

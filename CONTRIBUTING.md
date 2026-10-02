@@ -66,11 +66,16 @@ mounts the repository as the plugin:
 npx @wordpress/env start      # http://localhost:8888, admin / password
 ```
 
-To see the warning, damage the reference value the way a broken migration would:
+To see the warning, damage a reference value the way a broken migration would - each
+table on its own:
 
 ```sh
+# wp_options: serialization broken
 npx @wordpress/env run cli wp db query \
   "UPDATE wp_options SET option_value='a:1:{i:0;s:17:\"????????\";}' WHERE option_name='_emoji_guard_validation'"
+# wp_posts: emojis turned into question marks
+npx @wordpress/env run cli wp db query \
+  "UPDATE wp_posts SET post_content='????????' WHERE post_type='emoji_guard'"
 ```
 
 `npm run pack` stages the payload in `build/emoji-guard/` and zips it to `emoji-guard.zip`
