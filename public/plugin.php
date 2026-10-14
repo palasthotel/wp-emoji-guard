@@ -11,7 +11,7 @@ namespace Palasthotel\EmojiGuard;
  * Author URI: https://palasthotel.de
  * Text Domain: emoji-guard
  * Domain Path: /languages
- * Requires at least: 4.0
+ * Requires at least: 4.6
  * Requires PHP: 8.0
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -90,6 +90,7 @@ add_action( 'init', __NAMESPACE__ . '\register_post_type' );
  * @return string
  */
 function build_emoji_value() {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- FILTER_EMOJI_VALUE is "emoji_guard_value".
 	return apply_filters( FILTER_EMOJI_VALUE, OPTION_EMOJI_VALUE, OPTION_EMOJI_VALUE );
 }
 
@@ -102,6 +103,7 @@ function build_emoji_value() {
  */
 function get_checks() {
 	global $wpdb;
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- the check must read the database, not a cache, see above.
 	$expected = build_emoji_value();
 	$checks   = array();
 
@@ -131,6 +133,7 @@ function get_checks() {
 			) ) ) : false,
 		);
 	}
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	foreach ( $checks as $i => $check ) {
 		$checks[ $i ]['ok'] = ( $expected === $check['found'] );
@@ -282,6 +285,7 @@ function handle_overwrite() {
 		return;
 	}
 	if ( ! current_user_can( CAPABILITY ) ) {
+		// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- core's own message, translated by WordPress.
 		wp_die( esc_html__( 'Sorry, you are not allowed to access this page.' ), 403 );
 	}
 	check_admin_referer( NONCE_ACTION );
@@ -334,6 +338,14 @@ function render_findings( array $failed ) {
  */
 function render_overwrite_form() {
 	ob_start();
+	print_overwrite_form();
+	return ob_get_clean();
+}
+
+/**
+ * Prints the button that stores the reference again.
+ */
+function print_overwrite_form() {
 	?>
 	<form method="post">
 		<?php wp_nonce_field( NONCE_ACTION ); ?>
@@ -345,7 +357,6 @@ function render_overwrite_form() {
 		</p>
 	</form>
 	<?php
-	return ob_get_clean();
 }
 
 function admin_notices() {
@@ -353,6 +364,7 @@ function admin_notices() {
 		return;
 	}
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only picks the notice to show after the redirect, changes nothing.
 	if ( isset( $_GET['emoji-guard'] ) && 'updated' === $_GET['emoji-guard'] && check_emoji_integrity() ) {
 		?>
 		<div class="notice notice-success is-dismissible">
@@ -383,8 +395,15 @@ function admin_notices() {
 			<?php esc_html_e( 'Integrity check failed.', 'emoji-guard' ); ?>
 		</p>
 		<?php
-		echo render_findings( $failed ); // escaped in render_findings()
-		echo render_overwrite_form(); // static markup
+		echo wp_kses(
+			render_findings( $failed ),
+			array(
+				'ul'   => array(),
+				'li'   => array(),
+				'code' => array(),
+			)
+		);
+		print_overwrite_form();
 		?>
 	</div>
 	<?php

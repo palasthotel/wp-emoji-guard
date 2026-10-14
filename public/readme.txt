@@ -2,7 +2,7 @@
 Contributors: palasthotel, edwardbock, mkernel, janaeggebrecht
 Donate link: https://palasthotel.de/
 Tags: emoji, migration, utf8mb4, database, integrity
-Requires at least: 4.0
+Requires at least: 4.6
 Tested up to: 7.1
 Requires PHP: 8.0
 Stable tag: 1.0.1

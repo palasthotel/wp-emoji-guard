@@ -16,6 +16,7 @@ $emoji_guard_uninstall_site = function () {
 
 	// The post type is not registered while uninstalling, so the posts are found by
 	// their type directly; wp_delete_post() takes the post meta with them.
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- one-off cleanup, the post type is not registered here.
 	$ids = $wpdb->get_col( $wpdb->prepare(
 		"SELECT ID FROM $wpdb->posts WHERE post_type = %s",
 		'emoji_guard'
