@@ -12,9 +12,6 @@ jobs:
   checks:
     uses: palasthotel/github-workflows/.github/workflows/wp-plugin-pr.yml@v1
     with:
-      # Plugin Check reports errors on this plugin - see https://github.com/palasthotel/wp-emoji-guard/issues/7.
-      # Remove this line once they are fixed.
-      plugin-check: false
       slug: emoji-guard
       dev-plugin-name: Emoji Guard - DEV
       required-files: |
