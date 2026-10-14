@@ -11,7 +11,7 @@ namespace Palasthotel\EmojiGuard;
  * Author URI: https://palasthotel.de
  * Text Domain: emoji-guard
  * Domain Path: /languages
- * Requires at least: 4.0
+ * Requires at least: 4.6
  * Requires PHP: 7.4
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
