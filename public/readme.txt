@@ -4,7 +4,7 @@ Donate link: https://palasthotel.de/
 Tags: emoji, migration, utf8mb4, database, integrity
 Requires at least: 4.6
 Tested up to: 7.1
-Requires PHP: 7.4
+Requires PHP: 8.0
 Stable tag: 1.0.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
