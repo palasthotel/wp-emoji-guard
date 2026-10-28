@@ -5,7 +5,7 @@ Tags: emoji, migration, utf8mb4, database, integrity
 Requires at least: 4.6
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.0.1
+Stable tag: 2.0.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -42,6 +42,16 @@ A post of the private type `emoji_guard` that carries the reference value in the
 Then something else rewrote the database - a backup restore, a plugin converting tables, or a search and replace. Check a few posts with emojis; if they are fine, store the reference value again with the button.
 
 == Changelog ==
+
+= 2.0.0 =
+**⚠ BREAKING CHANGES**
+* requires PHP 8.0 or newer
+
+**Features**
+* drop support for PHP 7.4 (c86ba53)
+
+**Bug Fixes**
+* require WordPress 4.6 (d1eb245)
 
 = 1.0.1 =
 **Bug Fixes**
