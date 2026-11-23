@@ -8,6 +8,22 @@ on the file is maintained by
 The plugin's user-facing history lives in `public/readme.txt`, which is what shows on the
 wordpress.org plugin page.
 
+## [2.0.0](https://github.com/palasthotel/wp-emoji-guard/compare/v1.0.1...v2.0.0) (2026-10-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires PHP 8.0 or newer
+
+### Features
+
+* drop support for PHP 7.4 ([c86ba53](https://github.com/palasthotel/wp-emoji-guard/commit/c86ba53762b899e49f5eb90580e3c7640b3afdf6))
+
+
+### Bug Fixes
+
+* require WordPress 4.6 ([d1eb245](https://github.com/palasthotel/wp-emoji-guard/commit/d1eb245a81f2fe535f8bed8360ce50cfc7d3ea54))
+
 ## [1.0.1](https://github.com/palasthotel/wp-emoji-guard/compare/v1.0.0...v1.0.1) (2026-10-02)
 
 
